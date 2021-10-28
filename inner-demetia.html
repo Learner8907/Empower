@@ -5,11 +5,11 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Jobs for People with Dementia</title>
+  <title>Jobs for people with Dementia</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.6.3/tabletop.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
 
   <!-- Favicons -->
   <link href="1.ico" rel="icon">
@@ -45,10 +45,10 @@
     <div class="container d-flex align-items-center justify-content-between">
        <!-- Uncomment below if you prefer to use an image logo -->
   <a href="index.html" class="logo"><img src="./Empower Logos/1.png" id="logo_img" alt="" class="img-fluid"></a>
-
       <h1 class="logo"><a href="index.html">Empower</a></h1>
       
 
+     
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto active" href="./index.html#hero">Home</a></li>
@@ -63,7 +63,7 @@
               <li><a href="inner_deaf.html">Deaf</a></li>
               <li><a href="inner-autism.html">Autism</a></li>
               <li><a href="inner-demetia.html">Dementia</a></li>
-              <li><a href="inner-dylexia.html">Dylexia</a></li>
+              <li><a href="inner-dylexia.html">Dyslexia</a></li>
             </ul>
           </li>
           <li><a class="nav-link scrollto" href="./index.html#contact">Contact</a></li>
@@ -83,10 +83,10 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Jobs For People with Dementia</h2>
+          <h2>Jobs for people with Dementia</h2>
           <ol>
             <li><a href="index.html">Home</a></li>
-            <li>Jobs For People with Dementia</li>
+            <li>Jobs for people with Dementia</li>
           </ol>
         </div>
 
@@ -114,12 +114,11 @@
           </thead>
           <tbody id="table_job"></tbody>
           </table>
+        
       </div>
     </section>
 
   </main><!-- End #main -->
-  
-    
   
           
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -134,47 +133,37 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-<script>// make an HTML table using tabletop.js
 
+  <script type="text/javascript">
+    var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQHtcpF81PWv7uY4N3XI53Ft1qSbXfTn5qPf_M6UvbwHT5ulLlvIjgfroAHNwOIl_i4PZq776wKV2Xs/pub?gid=607957096&single=true&output=csv';
 
-  
+    function init() {
+      Papa.parse(public_spreadsheet_url, {
+        download: true,
+        header: true,
+        complete: showInfo
+      })
+    }
+    window.addEventListener('DOMContentLoaded', init)
 
-  var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1ubUx1rzomTZRNcdbYlSo478fAvrvYo9CJeQT7DiIaJU/edit?usp=sharing';
- 
-  function init() {
-    Tabletop.init( {
-      key: publicSpreadsheetUrl,
-      callback: showInfo,
-      simpleSheet: true 
-    } )
-  }
-
- 
-  function showInfo(data) {
-
-	//alert('Successfully processed!')
-    console.log(data);
-	console.log(JSON.stringify(data, null, 2));
-  
-	var html = "<tr scope='row'>";
-		  
-	// double for-loops to do rows, cells in a table
-	  for ( i = 0; i < data.length; i++ ) {
-			  for ( prop in data[i] ) {
-		  console.log(prop);
-     
-
-					  html += "<td>" + data[i][prop] + "</td>";
-		  }
-     html+= `<td><a href='https://docs.google.com/forms/d/e/1FAIpQLSdwowg5Ord9HzCgBoA8quNIdCWft8M5_IJWjtb9cRTEz832CQ/viewform?usp=sf_link' target="_blank"><button class='btn btn-warning's>Apply</button></a>`;
-			  html += "</tr><tr>";// a = a+2 ==>  a +=2, html = html + "</tr><tr>" , a= a+1 , a++, a+=1
-	  }
-	  document.getElementById("table_job").innerHTML = html;
-  
-  }
-
-  window.addEventListener('DOMContentLoaded', init)
-</script>
+    function showInfo(results) {
+      var data = results.data;
+      // data comes through as a simple array since simpleSheet is turned on
+      console.log(data);
+      //console.log(JSON.stringify(data, null, 2));
+      var html = "<tr scope='row'>";
+      // double for-loops to do rows, cells in a table
+      for (i = 0; i < data.length; i++) {
+        for (prop in data[i]) {
+          console.log(prop);
+          html += "<td>" + data[i][prop] + "</td>";
+        }
+        html += `<td><a href='https://docs.google.com/forms/d/e/1FAIpQLSd9zORbGeBUHpjJ3jHTB2QSiCy-3TEG38b8vFbGT__I2F-VIw/viewform?usp=sf_link' target="_blank"><button class='btn btn-warning's>Apply</button></a>`;
+        html += "</tr><tr>"; // a = a+2 ==>  a +=2, html = html + "</tr><tr>" , a= a+1 , a++, a+=1
+      }
+      document.getElementById("table_job").innerHTML = html;
+    }
+  </script>
 </body>
 <!-- ======= Footer ======= -->
 <footer id="footer">
@@ -200,11 +189,9 @@
             </div>
           </div>
         </div>
-    </div>
-</div>
-</div>
-</footer>
-
+        </div>
+  </div>
+  </div>
+  </footer>
 <!--Footer End-->
-
 </html>

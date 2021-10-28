@@ -9,7 +9,7 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.6.3/tabletop.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
 
   <!-- Favicons -->
   <link href="1.ico" rel="icon">
@@ -133,47 +133,37 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-<script>// make an HTML table using tabletop.js
 
+  <script type="text/javascript">
+    var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQHF5807X6GUB8FnIzy4EhDFRMCgvxcA4ge9VeBfJYssKxx5mgHaRBhWgSGOK_bMel5dBkihzMhQvQO/pub?gid=2027995984&single=true&output=csv';
 
-  //var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/1EkjGnIGa2Cyw2IcUcdslkNwFCbwX3dc6Ipe7-AMs2ls/edit?usp=sharing';
+    function init() {
+      Papa.parse(public_spreadsheet_url, {
+        download: true,
+        header: true,
+        complete: showInfo
+      })
+    }
+    window.addEventListener('DOMContentLoaded', init)
 
-  var publicSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/19xjSPp6DV6ym9W4lZxGszxrzyDz9d5vw7zOiMrQ6I1Q/edit?usp=sharing';
- 
-  function init() {
-    Tabletop.init( {
-      key: publicSpreadsheetUrl,
-      callback: showInfo,
-      simpleSheet: true 
-    } )
-  }
-
- 
-  function showInfo(data) {
-
-	//alert('Successfully processed!')
-    console.log(data);
-	console.log(JSON.stringify(data, null, 2));
-  
-	var html = "<tr scope='row'>";
-		  
-	// double for-loops to do rows, cells in a table
-	  for ( i = 0; i < data.length; i++ ) {
-			  for ( prop in data[i] ) {
-		  console.log(prop);
-     
-
-					  html += "<td>" + data[i][prop] + "</td>";
-		  }
-     html+= `<td><a href='https://docs.google.com/forms/d/e/1FAIpQLSeWmnjSwe3Oh9TpXXiBYYdK3J2T_1Lg7oaxtrO-LN-xJxzbdQ/viewform?usp=sf_link' target="_blank"><button class='btn btn-warning's>Apply</button></a>`;
-			  html += "</tr><tr>";// a = a+2 ==>  a +=2, html = html + "</tr><tr>" , a= a+1 , a++, a+=1
-	  }
-	  document.getElementById("table_job").innerHTML = html;
-  
-  }
-
-  window.addEventListener('DOMContentLoaded', init)
-</script>
+    function showInfo(results) {
+      var data = results.data;
+      // data comes through as a simple array since simpleSheet is turned on
+      console.log(data);
+      //console.log(JSON.stringify(data, null, 2));
+      var html = "<tr scope='row'>";
+      // double for-loops to do rows, cells in a table
+      for (i = 0; i < data.length; i++) {
+        for (prop in data[i]) {
+          console.log(prop);
+          html += "<td>" + data[i][prop] + "</td>";
+        }
+        html += `<td><a href='https://docs.google.com/forms/d/e/1FAIpQLSeWmnjSwe3Oh9TpXXiBYYdK3J2T_1Lg7oaxtrO-LN-xJxzbdQ/viewform?usp=sf_link' target="_blank"><button class='btn btn-warning's>Apply</button></a>`;
+        html += "</tr><tr>"; // a = a+2 ==>  a +=2, html = html + "</tr><tr>" , a= a+1 , a++, a+=1
+      }
+      document.getElementById("table_job").innerHTML = html;
+    }
+  </script>
 </body>
 <!-- ======= Footer ======= -->
 <footer id="footer">
